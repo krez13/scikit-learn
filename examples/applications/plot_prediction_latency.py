@@ -42,7 +42,7 @@ def atomic_benchmark_estimator(estimator, X_test, verbose=False):
     n_instances = X_test.shape[0]
     runtimes = np.zeros(n_instances, dtype=np.float)
     for i in range(n_instances):
-        instance = X_test[i, :]
+        instance = X_test[[i], :]
         start = time.time()
         estimator.predict(instance)
         runtimes[i] = time.time() - start
@@ -132,6 +132,7 @@ def boxplot_runtimes(runtimes, pred_type, configuration):
     pred_type : 'bulk' or 'atomic'
 
     """
+
     fig, ax1 = plt.subplots(figsize=(10, 6))
     bp = plt.boxplot(runtimes, )
 
@@ -140,9 +141,7 @@ def boxplot_runtimes(runtimes, pred_type, configuration):
                                       estimator_conf['instance']),
                                   estimator_conf['complexity_label']) for
                  estimator_conf in configuration['estimators']]
-    xtick_names = plt.setp(ax1, xticklabels=cls_infos)
-    plt.setp(xtick_names)
-
+    plt.setp(ax1, xticklabels=cls_infos)
     plt.setp(bp['boxes'], color='black')
     plt.setp(bp['whiskers'], color='black')
     plt.setp(bp['fliers'], color='red', marker='+')
@@ -242,7 +241,7 @@ def benchmark_throughputs(configuration, duration_secs=0.1):
         start_time = time.time()
         n_predictions = 0
         while (time.time() - start_time) < duration_secs:
-            estimator_config['instance'].predict(X_test[0])
+            estimator_config['instance'].predict(X_test[[0]])
             n_predictions += 1
         throughputs[estimator_config['name']] = n_predictions / duration_secs
     return throughputs

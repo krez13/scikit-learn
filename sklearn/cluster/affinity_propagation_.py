@@ -1,7 +1,5 @@
-""" Algorithms for clustering : Meanshift,  Affinity propagation and spectral
-clustering.
+"""Affinity Propagation clustering algorithm."""
 
-"""
 # Author: Alexandre Gramfort alexandre.gramfort@inria.fr
 #        Gael Varoquaux gael.varoquaux@normalesup.org
 
@@ -20,6 +18,8 @@ def affinity_propagation(S, preference=None, convergence_iter=15, max_iter=200,
                          damping=0.5, copy=True, verbose=False,
                          return_n_iter=False):
     """Perform Affinity Propagation Clustering of data
+
+    Read more in the :ref:`User Guide <affinity_propagation>`.
 
     Parameters
     ----------
@@ -191,6 +191,8 @@ def affinity_propagation(S, preference=None, convergence_iter=15, max_iter=200,
 class AffinityPropagation(BaseEstimator, ClusterMixin):
     """Perform Affinity Propagation Clustering of data.
 
+    Read more in the :ref:`User Guide <affinity_propagation>`.
+
     Parameters
     ----------
     damping : float, optional, default: 0.5
@@ -269,7 +271,7 @@ class AffinityPropagation(BaseEstimator, ClusterMixin):
     def _pairwise(self):
         return self.affinity == "precomputed"
 
-    def fit(self, X):
+    def fit(self, X, y=None):
         """ Create affinity matrix from negative euclidean distances, then
         apply affinity propagation clustering.
 
